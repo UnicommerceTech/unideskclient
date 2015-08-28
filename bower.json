@@ -1,0 +1,25 @@
+{
+  "name": "unideskclient",
+  "version": "0.0.0",
+  "authors": [
+    "Lalit Tanwar <lalit.tanwar@unicommerce.com>"
+  ],
+  "description": "Client Javascript for UniDesk",
+  "main": "undiesk.js",
+  "keywords": [
+    "uniware",
+    "supprt"
+  ],
+  "license": "MIT",
+  "homepage": "www.unidesk.in",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "html2canvas": "0.4.1"
+  }
+}

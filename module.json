@@ -1,0 +1,9 @@
+{
+
+  "name": "unidesk/client",
+  "unidesk/client": {
+    "js": ["xdm.js", "screencapture.js", "unidesk.js"],
+    "on": ["webmodules/html2canvas","webmodules/jquery"]
+  }
+
+}
