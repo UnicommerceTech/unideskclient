@@ -42,7 +42,7 @@ var xdm = (function (root, xdm) {
       for (var i in xdm.events[XDMEventName])
         xdm.events[XDMEventName][i](XDMEventObject.message, XDMEventObject, JSEventObject); // mainMessage, XDMEventObject, JSEventObject
     }
-    if (executController && XDMEventName.indexOf(XDM_PREFIX) == 0) {
+    if (executController && XDMEventName && XDMEventName.indexOf(XDM_PREFIX) === 0) {
       executController(XDMEventName, XDMEventObject.message, XDMEventObject, JSEventObject);
     }
   };
