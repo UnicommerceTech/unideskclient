@@ -1,4 +1,4 @@
-var LOG = function(){
+var LOG = LOG || function(){
   return console.error.apply(console,[window.location.origin].concat([].slice.apply(arguments)));
 };
 
