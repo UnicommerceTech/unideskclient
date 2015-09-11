@@ -13,7 +13,7 @@ var unidesk = (function (root, uniwall) {
     uniwall[name] = function (data) {
       return xdm.send(name, data);
     };
-    xdm.on(name, handler)
+    xdm.on(name, handler);
   };
 
   function popitup(url, windowName) {
@@ -34,6 +34,7 @@ var unidesk = (function (root, uniwall) {
       domain = options.domain || domain;
       $container = options.$container || $container;
       token = options.token || token;
+      uniwall.$capture = options.$capture ? jQuery(options.$capture[0]) : document.getElementsByTagName("body")[0];
     }
     popitup(domain + pathName, "uniwall");
   };
@@ -44,9 +45,15 @@ var unidesk = (function (root, uniwall) {
 
   registerHandler("capture_screen", function (options) {
     var _options = options || {};
-    $container.hide();
-    var dff = root.screencapture.click(document.getElementById("hello")).then(function () {
-      $container.show();
+    var showHide  = jQuery.contains( uniwall.$capture, $container )
+    if(showHide){
+      $container.hide();
+    }
+    var height = uniwall.$capture.height();
+    uniwall.$capture.height("100%");
+    var dff = root.screencapture.click(uniwall.$capture[0]).then(function () {
+      if(showHide) $container.show();
+      uniwall.$capture.height(height);
       return root.screencapture.getDataURI(_options.type);
     });
     return dff;

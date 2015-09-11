@@ -3,7 +3,7 @@ var screencapture = (function(root) {
 	var $ = root.jQuery;
 	var canvasImage = null;
 	var IMAGE_TYPE = "image/png";
-	
+
 	return {
 			counter : 0,
 			click : function($dom) {
@@ -77,6 +77,7 @@ var screencapture = (function(root) {
 			post : function(_options){
 				var options = _options || {};
 				options.data = screencapture.convertToBinary(options);
+        //console.error("options",options)
 				options.url = options.url || '/app/upload';
 				options.boundary = options.boundary || 'ohaiimaboundary';
 				return screencapture.sendMultiPartData(options);
@@ -84,7 +85,7 @@ var screencapture = (function(root) {
 			sendMultiPartData : function(options) {
 				var $def = $.Deferred();
 				var xhr = new XMLHttpRequest();
-				xhr.open("POST", options.url,false);
+				xhr.open("POST", options.url,true);
 				xhr.setRequestHeader(
 				    'Content-Type', 'multipart/form-data; boundary=' + options.boundary);
 				xhr.addEventListener("load", function() {
@@ -110,6 +111,7 @@ var screencapture = (function(root) {
 		        };
 		        xhr.upload.addEventListener("progress", function(event) {
 		          console.info(event);
+              $def.notify(event);
 		        }, false);
 
 		        xhr.send(options.data);
