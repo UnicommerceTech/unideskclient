@@ -59,6 +59,13 @@ var unidesk = (function (root, uniwall) {
     });
   };
 
+  uniwall.on = function(){
+    return xdm.on.apply(xdm,arguments);
+  };
+  uniwall.send = function(){
+    return xdm.send.apply(xdm,arguments);
+  };
+
   uniwall.capture_parent_screen = function () {
     return this.capture_screen();
   };
