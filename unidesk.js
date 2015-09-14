@@ -50,10 +50,10 @@ var unidesk = (function (root, uniwall) {
       $container.hide();
     }
     var height = uniwall.$capture.height();
-    uniwall.$capture.height("100%");
+    //uniwall.$capture.height("100%");
     var dff = root.screencapture.click(uniwall.$capture[0]).then(function () {
       if(showHide) $container.show();
-      uniwall.$capture.height(height);
+      //uniwall.$capture.height(height);
       return root.screencapture.getDataURI(_options.type);
     });
     return dff;
