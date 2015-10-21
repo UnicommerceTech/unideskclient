@@ -4,7 +4,7 @@ var unidesk = (function (root, uniwall) {
 
   var domain = "http://staging.unidesk.in";
   var pathName = "/client?#/client/issuelist"
-  var $container = null, token;
+  var $container = null, token,addData;
   var hostDomain;
   var UniWallPopup;
 
@@ -34,6 +34,7 @@ var unidesk = (function (root, uniwall) {
       domain = options.domain || domain;
       $container = options.$container || $container;
       token = options.token || token;
+      addData = options.data || {};
       uniwall.$capture = options.$capture ? jQuery(options.$capture[0]) : document.getElementsByTagName("body")[0];
     }
     popitup(domain + pathName, "uniwall");
@@ -41,6 +42,9 @@ var unidesk = (function (root, uniwall) {
 
   registerHandler("getToken", function () {
     return token;
+  });
+  registerHandler("getData", function () {
+    return addData;
   });
 
   registerHandler("capture_screen", function (options) {
