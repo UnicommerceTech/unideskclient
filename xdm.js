@@ -1,6 +1,7 @@
-var LOG = LOG || function(){
-  return console.error.apply(console,[window.location.origin].concat([].slice.apply(arguments)));
+var XDMLOG = function(){
+  return console.error.apply(console,["XDM",window.location.origin].concat([].slice.apply(arguments)));
 };
+var LOG = LOG || XDMLOG
 
 var xdm = (function (root, xdm) {
 
@@ -26,11 +27,13 @@ var xdm = (function (root, xdm) {
       root.attachEvent("onmessage", xdm._onMessage);
     }
     if(window.location != window.parent.location){
-      if(document.referrer !== ""){
+      //document.referrer.indexOf(document.location.origin) !== 0
+      if(document.referrer !== "" && document.referrer.indexOf(document.location.origin) !== 0){
         hostDomain = document.referrer;
       } else if(document.location.ancestorOrigins && document.location.ancestorOrigins.length){
         hostDomain = document.location.ancestorOrigins[document.location.ancestorOrigins.length-1];
       }
+      //XDMLOG("hostDomain",hostDomain);
     }
   };
 
@@ -38,6 +41,7 @@ var xdm = (function (root, xdm) {
   xdm._onMessage = function (JSEventObject) { //THIS FUNCTION SIMPLY PROCESSES ANY MESSAGE RECIEVED FROM PARENT WINDOW by calling handlers
     var XDMEventObject = (typeof JSEventObject.data == "string") ? JSON.parse(JSEventObject.data) : JSEventObject.data;
     var XDMEventName = XDMEventObject.XDMEventName;
+    XDMLOG("_onMessage",XDMEventObject);
     if (xdm.events[XDMEventName]) {
       for (var i in xdm.events[XDMEventName])
         xdm.events[XDMEventName][i](XDMEventObject.message, XDMEventObject, JSEventObject); // mainMessage, XDMEventObject, JSEventObject
@@ -59,6 +63,11 @@ var xdm = (function (root, xdm) {
     }
     destinationFrame = destinationFrame || root.opener || root.parent;
 
+    //XDMLOG(destinationFrame.location.hostname,root.opener.location.hostname,root.parent.location.hostname)
+    if(root.parent == destinationFrame){
+      //XDMLOG("I AM parent",root.opener);
+    }
+
     var messageid = XDM_PREFIX + (callback_counter++);
     try {
       var destURL;
@@ -66,7 +75,9 @@ var xdm = (function (root, xdm) {
         destURL = destinationURL || destinationFrame.location.href || hostDomain;
       } catch (e) {
         destURL = hostDomain;
+        //XDMLOG("hostDomain::::",destURL);
       }
+
       var XDMEventObjectString = JSON.stringify({
         XDMEventName: XDMEventName,
         message: message,
@@ -77,6 +88,9 @@ var xdm = (function (root, xdm) {
         windowID: root.windowID,
         messageid: messageid
       });
+
+      //XDMLOG("postMessage",destURL,XDMEventObjectString);
+
       destinationFrame.postMessage(XDMEventObjectString, destURL);
       return messageid;
     } catch (err) {
