@@ -41,7 +41,7 @@ var xdm = (function (root, xdm) {
   xdm._onMessage = function (JSEventObject) { //THIS FUNCTION SIMPLY PROCESSES ANY MESSAGE RECIEVED FROM PARENT WINDOW by calling handlers
     var XDMEventObject = (typeof JSEventObject.data == "string") ? JSON.parse(JSEventObject.data) : JSEventObject.data;
     var XDMEventName = XDMEventObject.XDMEventName;
-    XDMLOG("_onMessage",XDMEventObject);
+    //XDMLOG("_onMessage",XDMEventObject);
     if (xdm.events[XDMEventName]) {
       for (var i in xdm.events[XDMEventName])
         xdm.events[XDMEventName][i](XDMEventObject.message, XDMEventObject, JSEventObject); // mainMessage, XDMEventObject, JSEventObject
