@@ -36,6 +36,11 @@ var unidesk = (function (root, uniwall) {
       token = options.token || token;
       addData = options.data || {};
       uniwall.$capture = options.$capture ? jQuery(options.$capture[0]) : document.getElementsByTagName("body")[0];
+      if(options.events){
+          for(var eName in options.events){
+              window.xdm.on(eName,options.events[eName]);
+          }
+      }
     }
     popitup(domain + pathName, "uniwall");
   };
